@@ -1,26 +1,251 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import custom fonts */
+@import url("../styles/fonts.css");
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Base colors */
+  --color-primary: #0099e6;
+  --color-primary-dark: #0077b3;
+  --color-primary-light: #e6f7ff;
+  
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+  --color-muted: #666666;
+  
+  /* Accents */
+  --color-accent-purple: #6e56cf;
+  --color-accent-teal: #14b8a6;
+  --color-accent-amber: #f59e0b;
+  
+  /* Status colors */
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* UI elements */
+  --color-border: #e6e6e6;
+  --color-input: #f2f2f2;
+  --color-ring: rgba(0, 153, 230, 0.25);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 3px 8px 0 rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 2px var(--color-ring);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-default: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-background: #1a1a1a;
+    --color-foreground: #f2f2f2;
+    --color-muted: #b3b3b3;
+    --color-border: #333333;
+    --color-input: #2a2a2a;
+    --color-ring: rgba(0, 153, 230, 0.4);
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 3px 8px 0 rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 }
 
+@layer base {
+  /* Base HTML elements */
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: 'SF Pro Text', var(--font-sans);
+    line-height: 1.5;
+    transition: background-color var(--transition-default), color var(--transition-default);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'SF Pro Display', var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    margin-bottom: 1.5rem;
+  }
+  
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+  
+  a:hover {
+    color: var(--color-primary-dark);
+  }
+  
+  input, select, textarea, button {
+    font-family: 'SF Pro Text', var(--font-sans);
+  }
+  
+  /* Focus styles */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+}
+
+@layer components {
+  /* Glass morphism elements */
+  .glass-panel {
+    background-color: var(--color-background);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border);
+  }
+  
+  /* Modern gradients */
+  .gradient-primary {
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-dark));
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(to right, var(--color-accent-purple), var(--color-primary));
+  }
+  
+  .gradient-subtle {
+    background: linear-gradient(to bottom right, #f7f7f7, #eaeaea);
+  }
+  
+  /* Text styles */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Animation classes */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  /* Dashboard specific */
+  .dashboard-section {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    background-color: var(--color-background);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-default), box-shadow var(--transition-default);
+  }
+  
+  .dashboard-section:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 500;
+    transition-property: background-color, color;
+    transition-duration: 150ms;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+  
+  .btn-primary:focus-visible {
+    outline: none;
+    ring: 2px;
+    ring-color: var(--color-primary);
+    ring-offset: 2px;
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #f3f4f6;
+    color: #374151;
+    font-weight: 500;
+    transition-property: background-color, color;
+    transition-duration: 150ms;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: #374151;
+    font-weight: 500;
+    transition-property: background-color;
+    transition-duration: 150ms;
+  }
+  
+  .btn-ghost:hover {
+    background-color: #f3f4f6;
+  }
 }
